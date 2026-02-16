@@ -349,48 +349,42 @@ func _are_horizontally_connected(row: int, col: int) -> bool:
 
 func _add_horizontal_tear(row: int, col: int) -> void:
 	# Texture on disk is VERTICAL, need to rotate 90° for horizontal seam
-	var tear = TextureRect.new()
+	var tear = Sprite2D.new()
 	tear.texture = tear_texture
-	tear.stretch_mode = TextureRect.STRETCH_SCALE
+	tear.centered = true
 	
-	var tex_w = tear_texture.get_width()  # thickness (small)
-	var tex_h = tear_texture.get_height()  # length (large)
+	var tex_w = float(tear_texture.get_width())   # thickness (small)
+	var tex_h = float(tear_texture.get_height())  # length (large)
 	
-	# Scale so rotated length = tile width
+	# Scale: length should match tile width
 	var scale_factor = tile_size.x / tex_h
-	var tear_length = tile_size.x
-	var tear_thickness = tex_w * scale_factor
-	
-	tear.size = Vector2(tear_length, tear_thickness)
-	tear.pivot_offset = tear.size / 2
+	tear.scale = Vector2(scale_factor, scale_factor)
 	tear.rotation = PI / 2
 	
 	# Center on seam between row and row+1
 	var seam_y = (row + 1) * tile_size.y
 	var seam_center_x = col * tile_size.x + tile_size.x / 2
-	tear.position = Vector2(seam_center_x - tear_thickness / 2, seam_y - tear_length / 2)
+	tear.position = Vector2(seam_center_x, seam_y)
 	
 	tears_container.add_child(tear)
 
 func _add_vertical_tear(row: int, col: int) -> void:
 	# Texture on disk is VERTICAL, use as-is for vertical seam
-	var tear = TextureRect.new()
+	var tear = Sprite2D.new()
 	tear.texture = tear_texture
-	tear.stretch_mode = TextureRect.STRETCH_SCALE
+	tear.centered = true
 	
-	var tex_w = tear_texture.get_width()  # thickness (small)
-	var tex_h = tear_texture.get_height()  # length (large)
+	var tex_w = float(tear_texture.get_width())   # thickness (small)
+	var tex_h = float(tear_texture.get_height())  # length (large)
 	
-	# Scale so length = tile height
+	# Scale: length should match tile height
 	var scale_factor = tile_size.y / tex_h
-	var tear_thickness = tex_w * scale_factor
-	var tear_length = tile_size.y
-	
-	tear.size = Vector2(tear_thickness, tear_length)
+	tear.scale = Vector2(scale_factor, scale_factor)
 	
 	# Center on seam between col and col+1
 	var seam_x = (col + 1) * tile_size.x
-	tear.position = Vector2(seam_x - tear_thickness / 2, row * tile_size.y)
+	var seam_center_y = row * tile_size.y + tile_size.y / 2
+	tear.position = Vector2(seam_x, seam_center_y)
 	
 	tears_container.add_child(tear)
 
