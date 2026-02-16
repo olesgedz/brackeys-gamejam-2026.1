@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://c2mini0000001"]
+
+[ext_resource type="Script" path="res://src/levels/minigame.gd" id="1_minigame"]
+
+[node name="Minigame" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_minigame")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 1)
+
+[node name="ColoredSquare" type="Button" parent="."]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 400.0
+offset_right = 920.0
+offset_bottom = 520.0
+flat = true
+
+[node name="SquareVisual" type="ColorRect" parent="ColoredSquare"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.95, 0.2, 0.5, 1)
+
+[node name="WinLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 660.0
+offset_top = 550.0
+offset_right = 1260.0
+offset_bottom = 620.0
+theme_override_colors/font_color = Color(0.1, 0.6, 0.2, 1)
+theme_override_font_sizes/font_size = 48
+text = "Ты победил!"
+horizontal_alignment = 1
