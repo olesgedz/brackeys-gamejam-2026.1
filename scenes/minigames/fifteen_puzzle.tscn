@@ -5,7 +5,10 @@
 
 [node name="FifteenPuzzle" type="Node2D" unique_id=1176949167]
 script = ExtResource("1_puzzle")
+rows = 3
+cols = 2
 image_texture = ExtResource("2_uuhj7")
+shuffle_moves = 10
 
 [node name="Background" type="ColorRect" parent="." unique_id=1897207536]
 offset_right = 400.0
@@ -14,7 +17,9 @@ color = Color(0.1, 0.1, 0.1, 1)
 
 [node name="TilesContainer" type="Node2D" parent="." unique_id=1947506482]
 
-[node name="TearsContainer" type="Node2D" parent="."]
+[node name="TearsContainer" type="Node2D" parent="." unique_id=898546429]
+
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
 
 [node name="WinLabel" type="Label" parent="." unique_id=1739869396]
 offset_left = 100.0

@@ -10,10 +10,12 @@ signal puzzle_completed
 @export_range(5, 200, 5) var shuffle_moves: int = 50
 @export var tear_texture: Texture2D  ## Texture for torn edges between tiles
 @export var developer_mode: bool = false  ## Enables right-click swap cheats
+@export var slide_sounds: Array[AudioStream] = []  ## Sound bank for tile movement
 
 @onready var tiles_container: Node2D = $TilesContainer
 @onready var tears_container: Node2D = $TearsContainer
 @onready var win_label: Label = $WinLabel
+@onready var audio_player: AudioStreamPlayer = $AudioPlayer
 
 var tiles: Array = []  # 2D array of tile nodes
 var empty_pos: Vector2i = Vector2i(0, 0)  # Position of empty slot
@@ -139,8 +141,20 @@ func _swap_with_empty(tile_pos: Vector2i) -> void:
 	var tween = create_tween()
 	tween.tween_property(tile, "position", Vector2(empty_pos.x * tile_size.x, empty_pos.y * tile_size.y), 0.1)
 	
+	# Play slide sound
+	_play_random_slide_sound()
+	
 	# Update empty position
 	empty_pos = tile_pos
+
+func _play_random_slide_sound() -> void:
+	if slide_sounds.is_empty() or audio_player == null:
+		return
+	
+	var random_sound = slide_sounds[randi() % slide_sounds.size()]
+	audio_player.stream = random_sound
+	audio_player.pitch_scale = randf_range(0.9, 1.1)  # Slight pitch variation
+	audio_player.play()
 
 func _check_win() -> void:
 	for row in range(rows):
