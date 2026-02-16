@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://djqs4h2slp5dc" path="res://src/minigames/fifteen_puzzle.gd" id="1_puzzle"]
 [ext_resource type="Texture2D" uid="uid://c6quh4qhh17ti" path="res://visual/sprites/15_woman_01.png" id="2_uuhj7"]
+[ext_resource type="AudioStream" uid="uid://h1ysgmxnr4rl" path="res://sound/effects/piece_moved_01.mp3" id="4_fug3n"]
 
 [node name="FifteenPuzzle" type="Node2D" unique_id=1176949167]
 script = ExtResource("1_puzzle")
@@ -9,6 +10,8 @@ rows = 3
 cols = 2
 image_texture = ExtResource("2_uuhj7")
 shuffle_moves = 10
+developer_mode = true
+slide_sounds = Array[AudioStream]([ExtResource("4_fug3n")])
 
 [node name="Background" type="ColorRect" parent="." unique_id=1897207536]
 offset_right = 400.0
@@ -19,7 +22,7 @@ color = Color(0.1, 0.1, 0.1, 1)
 
 [node name="TearsContainer" type="Node2D" parent="." unique_id=898546429]
 
-[node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="." unique_id=1332261780]
 
 [node name="WinLabel" type="Label" parent="." unique_id=1739869396]
 offset_left = 100.0
