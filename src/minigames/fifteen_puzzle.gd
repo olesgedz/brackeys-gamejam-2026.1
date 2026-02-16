@@ -7,6 +7,7 @@ signal puzzle_completed
 @export var cols: int = 4
 @export var puzzle_size: Vector2 = Vector2(400, 400)
 @export var image_texture: Texture2D
+@export_range(5, 200, 5) var shuffle_moves: int = 50
 
 @onready var tiles_container: Node2D = $TilesContainer
 @onready var win_label: Label = $WinLabel
@@ -145,9 +146,7 @@ func _check_win() -> void:
 
 func _shuffle_puzzle() -> void:
 	# Perform random valid moves to shuffle
-	var moves = rows * cols * 20  # Number of shuffle moves
-	
-	for i in range(moves):
+	for i in range(shuffle_moves):
 		var adjacent = _get_adjacent_to_empty()
 		if adjacent.size() > 0:
 			var random_pos = adjacent[randi() % adjacent.size()]

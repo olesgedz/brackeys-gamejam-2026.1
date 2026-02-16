@@ -75,6 +75,27 @@ min_value = 2.0
 max_value = 8.0
 value = 4.0
 
+[node name="DifficultySettings" type="VBoxContainer" parent="UI"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="DifficultyLabel" type="Label" parent="UI/DifficultySettings"]
+layout_mode = 2
+text = "Difficulty:"
+
+[node name="DifficultySlider" type="HSlider" parent="UI/DifficultySettings"]
+layout_mode = 2
+min_value = 5.0
+max_value = 200.0
+step = 5.0
+value = 50.0
+
+[node name="DifficultyValue" type="Label" parent="UI/DifficultySettings"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "50 moves"
+horizontal_alignment = 1
+
 [node name="Buttons" type="VBoxContainer" parent="UI"]
 layout_mode = 2
 theme_override_constants/separation = 8

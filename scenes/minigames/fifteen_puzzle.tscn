@@ -1,22 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5fifteen001"]
+[gd_scene format=3 uid="uid://c5fifteen001"]
 
-[ext_resource type="Script" path="res://src/minigames/fifteen_puzzle.gd" id="1_puzzle"]
+[ext_resource type="Script" uid="uid://djqs4h2slp5dc" path="res://src/minigames/fifteen_puzzle.gd" id="1_puzzle"]
+[ext_resource type="Texture2D" uid="uid://c6quh4qhh17ti" path="res://visual/sprites/15_woman_01.png" id="2_uuhj7"]
 
-[node name="FifteenPuzzle" type="Node2D"]
+[node name="FifteenPuzzle" type="Node2D" unique_id=1176949167]
 script = ExtResource("1_puzzle")
+image_texture = ExtResource("2_uuhj7")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="." unique_id=1897207536]
 offset_right = 400.0
 offset_bottom = 400.0
 color = Color(0.1, 0.1, 0.1, 1)
 
-[node name="TilesContainer" type="Node2D" parent="."]
+[node name="TilesContainer" type="Node2D" parent="." unique_id=1947506482]
 
-[node name="WinLabel" type="Label" parent="."]
+[node name="WinLabel" type="Label" parent="." unique_id=1739869396]
 offset_left = 100.0
-offset_top = 420.0
+offset_top = 137.0
 offset_right = 300.0
-offset_bottom = 460.0
+offset_bottom = 182.0
 theme_override_colors/font_color = Color(0.2, 0.9, 0.3, 1)
 theme_override_font_sizes/font_size = 32
 text = "You Won!"
