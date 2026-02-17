@@ -29,8 +29,9 @@ PROJECT_ROOT = Path(__file__).parent.parent
 DIALOGUES_DIR = PROJECT_ROOT / "dialogues"
 AUDIO_OUTPUT_DIR = PROJECT_ROOT / "sound" / "dialogues"
 GIBBERISH_SCRIPT = PROJECT_ROOT / "tools" / "gibberish_tts.py"
+VOICE_CONFIG_FILE = DIALOGUES_DIR / "voice_config.json"
 
-# Voice presets for different character types (from gibberish_tts.py)
+# Default voice presets (overridden by voice_config.json if exists)
 CHARACTER_PRESETS = {
     "default": "male1",
     "doctor": "male2",
@@ -39,6 +40,28 @@ CHARACTER_PRESETS = {
     "old_man": "male4",
     "woman": "female2",
 }
+
+
+def load_voice_config():
+    """Load voice configuration from JSON file if it exists."""
+    global CHARACTER_PRESETS
+    
+    if VOICE_CONFIG_FILE.exists():
+        try:
+            with open(VOICE_CONFIG_FILE, "r", encoding="utf-8") as f:
+                config = json.load(f)
+            
+            # Load default voice
+            if "default" in config:
+                CHARACTER_PRESETS["default"] = config["default"]
+            
+            # Load character mappings
+            if "characters" in config:
+                CHARACTER_PRESETS.update(config["characters"])
+            
+            print(f"Loaded voice config from {VOICE_CONFIG_FILE.name}")
+        except Exception as e:
+            print(f"Warning: Could not load voice config: {e}")
 
 
 def parse_dtl_file(filepath: Path) -> list[dict]:
@@ -104,17 +127,23 @@ def get_preset_for_character(character: str) -> str:
     if char_lower in CHARACTER_PRESETS:
         return CHARACTER_PRESETS[char_lower]
     
-    # Fuzzy matching
-    if "doctor" in char_lower or "dr" in char_lower:
-        return CHARACTER_PRESETS["doctor"]
-    if "nurse" in char_lower:
-        return CHARACTER_PRESETS["nurse"]
-    if "child" in char_lower or "kid" in char_lower or "boy" in char_lower or "girl" in char_lower:
-        return CHARACTER_PRESETS["child"]
-    if "old" in char_lower or "elder" in char_lower:
-        return CHARACTER_PRESETS["old_man"]
-    if "woman" in char_lower or "lady" in char_lower or "female" in char_lower:
-        return CHARACTER_PRESETS["woman"]
+    # Fuzzy matching based on keywords
+    fuzzy_rules = [
+        (["doctor", "dr."], "doctor"),
+        (["nurse"], "nurse"),
+        (["child", "kid", "boy"], "child"),
+        (["girl"], "girl"),
+        (["old", "elder"], "old_man"),
+        (["woman", "lady", "female", "mother", "mom"], "woman"),
+        (["narrator"], "narrator"),
+        (["whisper"], "whisper"),
+    ]
+    
+    for keywords, char_type in fuzzy_rules:
+        for kw in keywords:
+            if kw in char_lower:
+                if char_type in CHARACTER_PRESETS:
+                    return CHARACTER_PRESETS[char_type]
     
     return CHARACTER_PRESETS["default"]
 
@@ -203,6 +232,9 @@ def main():
     parser.add_argument("--list-presets", action="store_true", help="Show available voice presets")
     
     args = parser.parse_args()
+    
+    # Load custom voice config
+    load_voice_config()
     
     if args.list_presets:
         print("Available character presets:")
