@@ -1,0 +1,34 @@
+{
+  "events": [
+    {
+      "event_name": "dialogic_text_event",
+      "character": "doctor",
+      "text": "The patient needs immediate treatment. We must begin the procedure now."
+    },
+    {
+      "event_name": "dialogic_text_event",
+      "character": "nurse",
+      "text": "Doctor, the instruments are ready. Should I prepare the sedative?"
+    },
+    {
+      "event_name": "dialogic_text_event",
+      "character": "doctor",
+      "text": "Yes, but use a lower dose. The child is fragile."
+    },
+    {
+      "event_name": "dialogic_text_event",
+      "character": "nurse",
+      "text": "Understood. I will monitor the vitals closely."
+    },
+    {
+      "event_name": "dialogic_text_event",
+      "character": "old_man",
+      "text": "Is there any hope, doctor? Tell me the truth."
+    },
+    {
+      "event_name": "dialogic_text_event",
+      "character": "doctor",
+      "text": "We are doing everything we can. That is all I can promise."
+    }
+  ]
+}
