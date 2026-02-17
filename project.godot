@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="Mend"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://src/ui/main_menu.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[audio]
+
+buses/default_bus_layout="res://default_bus_layout.tres"
+
+[autoload]
+
+GameSettings="*res://src/autoload/game_settings.gd"
 
 [file_customization]
 
