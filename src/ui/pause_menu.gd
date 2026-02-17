@@ -21,9 +21,11 @@ func toggle_pause() -> void:
 	if is_paused:
 		show()
 		get_tree().paused = true
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	else:
 		hide()
 		get_tree().paused = false
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
 func _on_back_pressed() -> void:
@@ -32,4 +34,5 @@ func _on_back_pressed() -> void:
 
 func _on_exit_pressed() -> void:
 	get_tree().paused = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().change_scene_to_file("res://src/ui/main_menu.tscn")
