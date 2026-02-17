@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://gameplay/paintings/painting.gd" id="1_painting"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_canvas"]
+size = Vector2(1, 1.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_canvas"]
+albedo_color = Color(0.3, 0.3, 0.35, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_frame"]
+size = Vector3(1.1, 1.3, 0.08)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frame"]
+albedo_color = Color(0.25, 0.15, 0.1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_interaction"]
+size = Vector3(1.2, 1.4, 0.5)
+
+[node name="Painting" type="Node3D"]
+script = ExtResource("1_painting")
+
+[node name="FrameMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.02)
+mesh = SubResource("BoxMesh_frame")
+surface_material_override/0 = SubResource("StandardMaterial3D_frame")
+
+[node name="CanvasMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.02)
+mesh = SubResource("QuadMesh_canvas")
+surface_material_override/0 = SubResource("StandardMaterial3D_canvas")
+
+[node name="InteractionArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 0
+input_ray_pickable = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionArea"]
+shape = SubResource("BoxShape3D_interaction")
+
+[node name="CompletedIndicator" type="Node3D" parent="."]
+visible = false
+
+[node name="CheckMesh" type="MeshInstance3D" parent="CompletedIndicator"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.4, 0.5, 0.1)
+mesh = SubResource("BoxMesh_frame")
