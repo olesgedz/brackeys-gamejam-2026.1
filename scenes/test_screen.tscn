@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://rkorsjnytypp"]
 
 [ext_resource type="Texture2D" uid="uid://8u6ulfj35g14" path="res://icon.svg" id="1_8d10o"]
+[ext_resource type="Script" uid="uid://hh0v3c0vsjc7" path="res://src/minigames/button.gd" id="2_k6anp"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_hcuvr"]
 
@@ -14,3 +15,13 @@ texture = ExtResource("1_8d10o")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1406005191]
 position = Vector2(578, 327)
+
+[node name="Button" type="Button" parent="." unique_id=198924385]
+offset_left = 368.0
+offset_top = 283.0
+offset_right = 606.0
+offset_bottom = 419.0
+text = "dasdasd"
+script = ExtResource("2_k6anp")
+
+[connection signal="button_down" from="Button" to="Button" method="_on_button_down"]

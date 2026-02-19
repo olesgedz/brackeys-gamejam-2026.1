@@ -5,6 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://c4pict0000001" path="res://scenes/interactive_picture.tscn" id="3_picture"]
 [ext_resource type="Script" uid="uid://u565i5f7hdir" path="res://src/globals/game_manager.gd" id="4_gm"]
 [ext_resource type="PackedScene" path="res://src/ui/pause_menu.tscn" id="5_pause"]
+[ext_resource type="Script" uid="uid://dcet22hdtwrhv" path="res://src/minigames/painting.gd" id="6_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://rkorsjnytypp" path="res://scenes/test_screen.tscn" id="7_o6xl0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
 albedo_color = Color(0.4, 0.35, 0.3, 1)
@@ -14,6 +16,18 @@ albedo_color = Color(0.9, 0.9, 0.85, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wall"]
 albedo_color = Color(0.8, 0.75, 0.7, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_o6xl0"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_tipki"]
+viewport_path = NodePath("Node3D/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_85g3d"]
+resource_local_to_scene = true
+albedo_texture = SubResource("ViewportTexture_tipki")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o6xl0"]
+size = Vector3(1, 1, 0.6348877)
 
 [node name="Main" type="Node3D" unique_id=1787228791 groups=["main_scene"]]
 
@@ -75,4 +89,32 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 light_energy = 0.5
 omni_range = 8.0
 
-[node name="PauseMenu" parent="." instance=ExtResource("5_pause")]
+[node name="PauseMenu" parent="." unique_id=83094701 instance=ExtResource("5_pause")]
+
+[node name="Node3D" type="Node3D" parent="." unique_id=2056471123]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -3.7564032, 2.33779, 0)
+script = ExtResource("6_o6xl0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D" unique_id=1536200486]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.8580603e-08, -0.42113638, -1.1113946)
+mesh = SubResource("QuadMesh_o6xl0")
+surface_material_override/0 = SubResource("StandardMaterial3D_85g3d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Node3D/MeshInstance3D" unique_id=1918228649]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Node3D/MeshInstance3D/StaticBody3D" unique_id=1668799781]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.18255615)
+shape = SubResource("BoxShape3D_o6xl0")
+
+[node name="CameraAnchor" type="Marker3D" parent="Node3D" unique_id=547413930]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.03246265e-08, -0.49252868, -0.2362001)
+
+[node name="SubViewport" type="SubViewport" parent="Node3D" unique_id=35354948]
+disable_3d = true
+handle_input_locally = false
+physics_object_picking = true
+physics_object_picking_sort = true
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="TestScreen" parent="Node3D/SubViewport" unique_id=913655254 instance=ExtResource("7_o6xl0")]
