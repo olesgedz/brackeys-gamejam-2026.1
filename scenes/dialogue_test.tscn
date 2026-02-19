@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://bflrguqoe7md0"]
+
+[sub_resource type="GDScript" id="GDScript_test"]
+script/source = "extends Control
+
+## Press SPACE to start the dialogue.
+## Change dialogue_id to test different dialogues.
+
+@export var dialogue_id: String = \"intro\"
+
+var _label: Label
+var _started := false
+
+func _ready() -> void:
+	# Dark background
+	var bg := ColorRect.new()
+	bg.color = Color(0.08, 0.08, 0.1, 1.0)
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	bg.z_index = -100
+	add_child(bg)
+	move_child(bg, 0)
+	
+	# Instructions
+	_label = Label.new()
+	_label.text = \"Press SPACE to start dialogue: \" + dialogue_id
+	_label.set_anchors_preset(Control.PRESET_CENTER)
+	_label.add_theme_font_size_override(\"font_size\", 24)
+	add_child(_label)
+	
+	print(\"[DialogueTest] Ready. Press SPACE to start: \", dialogue_id)
+
+func _input(event: InputEvent) -> void:
+	if not _started and event is InputEventKey and event.pressed and event.keycode == KEY_SPACE:
+		_start_dialogue()
+
+func _start_dialogue() -> void:
+	_started = true
+	print(\"[DialogueTest] Starting dialogue: \", dialogue_id)
+	_label.text = \"Running...\"
+	
+	# Access Dialogic through autoload
+	var dialogic = get_node_or_null(\"/root/Dialogic\")
+	if dialogic == null:
+		_label.text = \"ERROR: Dialogic autoload not found!\"
+		push_error(\"Dialogic autoload not found. Enable the plugin and ensure Dialogic is autoloaded.\")
+		return
+	
+	# Make sure a style is loaded
+	if dialogic.has_method(\"start\"):
+		# Connect to timeline_ended to know when dialogue finishes
+		if dialogic.has_signal(\"timeline_ended\") and not dialogic.timeline_ended.is_connected(_on_dialogue_ended):
+			dialogic.timeline_ended.connect(_on_dialogue_ended)
+		
+		# Start the dialogue - Dialogic will handle advancing via its own input
+		dialogic.start(dialogue_id)
+	else:
+		_label.text = \"ERROR: Dialogic.start() not found!\"
+
+func _on_dialogue_ended() -> void:
+	_started = false
+	_label.text = \"Dialogue ended. Press SPACE to restart.\"
+	print(\"[DialogueTest] Dialogue ended.\")
+"
+
+[node name="DialogueTest" type="Control" unique_id=640467446]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_test")

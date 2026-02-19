@@ -1,0 +1,12 @@
+[project]
+name = "dialogue-editor"
+version = "0.1.0"
+description = "Visual Dialogue Editor for Mend"
+requires-python = ">=3.10"
+dependencies = [
+    "pyside6>=6.10.2",
+    "pyyaml>=6.0.3",
+]
+
+[dependency-groups]
+dev = []

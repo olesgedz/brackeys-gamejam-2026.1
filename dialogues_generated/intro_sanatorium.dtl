@@ -1,0 +1,62 @@
+{
+  "events": [
+    {
+      "event_name": "dialogic_label_event",
+      "name": "a1b2c"
+    },
+    {
+      "event_name": "dialogic_text_event",
+      "character": "child",
+      "text": "..."
+    },
+    {
+      "event_name": "dialogic_label_event",
+      "name": "d3e4f"
+    },
+    {
+      "event_name": "dialogic_text_event",
+      "character": "child",
+      "text": "(Where am I? Everything is so... foggy.)"
+    },
+    {
+      "event_name": "dialogic_label_event",
+      "name": "5f6a7"
+    },
+    {
+      "event_name": "dialogic_text_event",
+      "character": "nurse",
+      "text": "Oh! You're awake. How do you feel?"
+    },
+    {
+      "event_name": "dialogic_label_event",
+      "name": "b8c9d"
+    },
+    {
+      "event_name": "dialogic_choice_event",
+      "text": "(Stay silent)"
+    },
+    {
+      "event_name": "dialogic_jump_event",
+      "target": "e0f1a"
+    },
+    {
+      "event_name": "dialogic_end_branch_event"
+    },
+    {
+      "event_name": "dialogic_choice_event",
+      "text": "(Try to speak)"
+    },
+    {
+      "event_name": "dialogic_jump_event",
+      "target": "2b3c4"
+    },
+    {
+      "event_name": "dialogic_end_branch_event"
+    }
+  ],
+  "_metadata": {
+    "source": "intro_sanatorium.yaml",
+    "id": "intro_sanatorium",
+    "title": "Awakening in the Sanatorium"
+  }
+}

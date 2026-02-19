@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://rkorsjnytypp"]
+
+[ext_resource type="Texture2D" uid="uid://8u6ulfj35g14" path="res://icon.svg" id="1_8d10o"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_hcuvr"]
+
+[node name="TestScreen" type="Node2D" unique_id=913655254]
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="." unique_id=1537894816]
+position = Vector2(462.99997, 349)
+scale = Vector2(343.5, 185.5)
+mesh = SubResource("QuadMesh_hcuvr")
+texture = ExtResource("1_8d10o")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1406005191]
+position = Vector2(578, 327)
