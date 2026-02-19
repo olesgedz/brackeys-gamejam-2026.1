@@ -17,6 +17,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+GameManager="*res://src/autoload/game_manager.gd"
+MiniGameManager="*res://gameplay/minigames/minigame_manager.gd"
 GameSettings="*res://src/autoload/game_settings.gd"
 DialogService="*res://src/autoload/dialog_service.gd"
 Dialogic="*uid://ds2q0uclmolvu"

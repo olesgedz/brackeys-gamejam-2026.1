@@ -52,16 +52,28 @@ func _physics_process(_delta: float) -> void:
 func _check_interactable() -> void:
 	if raycast.is_colliding():
 		var collider = raycast.get_collider()
-		if collider and collider.has_method("can_interact"):
+		# Check collider or its parent for interactable methods
+		var interactable = _get_interactable(collider)
+		if interactable:
 			var distance = global_position.distance_to(raycast.get_collision_point())
-			if distance <= interaction_distance and collider.can_interact():
-				if current_interactable != collider:
+			if distance <= interaction_distance and interactable.can_interact():
+				if current_interactable != interactable:
 					if current_interactable:
 						current_interactable.hide_tooltip()
-					current_interactable = collider
+					current_interactable = interactable
 					current_interactable.show_tooltip()
 				return
 	
 	if current_interactable:
 		current_interactable.hide_tooltip()
 		current_interactable = null
+
+
+func _get_interactable(node: Node) -> Node:
+	# Check node itself
+	if node and node.has_method("can_interact"):
+		return node
+	# Check parent (for Area3D children of interactables)
+	if node and node.get_parent() and node.get_parent().has_method("can_interact"):
+		return node.get_parent()
+	return null

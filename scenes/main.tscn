@@ -2,8 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c3play0000001" path="res://scenes/player.tscn" id="1_player"]
 [ext_resource type="PackedScene" uid="uid://c1hud00000001" path="res://scenes/hud.tscn" id="2_hud"]
-[ext_resource type="PackedScene" uid="uid://c4pict0000001" path="res://scenes/interactive_picture.tscn" id="3_picture"]
-[ext_resource type="Script" uid="uid://u565i5f7hdir" path="res://src/globals/game_manager.gd" id="4_gm"]
+[ext_resource type="PackedScene" path="res://gameplay/paintings/painting.tscn" id="3_painting"]
 [ext_resource type="PackedScene" path="res://src/ui/pause_menu.tscn" id="5_pause"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
@@ -16,9 +15,6 @@ albedo_color = Color(0.9, 0.9, 0.85, 1)
 albedo_color = Color(0.8, 0.75, 0.7, 1)
 
 [node name="Main" type="Node3D" unique_id=1787228791 groups=["main_scene"]]
-
-[node name="GameManager" type="Node" parent="." unique_id=1776813297]
-script = ExtResource("4_gm")
 
 [node name="Player" parent="." unique_id=1884243109 instance=ExtResource("1_player")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 3)
@@ -63,8 +59,11 @@ use_collision = true
 size = Vector3(0.1, 4, 10)
 material = SubResource("StandardMaterial3D_wall")
 
-[node name="InteractivePicture" parent="." unique_id=1458991196 instance=ExtResource("3_picture")]
+[node name="Painting" parent="." instance=ExtResource("3_painting")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -4.95)
+painting_id = "fifteen_puzzle"
+minigame_type = 2
+difficulty = 2
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2043965571]
 transform = Transform3D(0.866, -0.354, 0.354, 0, 0.707, 0.707, -0.5, -0.612, 0.612, 2, 3.5, 2)
