@@ -2,7 +2,7 @@
   "events": [
     {
       "event_name": "dialogic_label_event",
-      "name": "wake_up"
+      "name": "a1b2c"
     },
     {
       "event_name": "dialogic_text_event",
@@ -11,7 +11,7 @@
     },
     {
       "event_name": "dialogic_label_event",
-      "name": "look_around"
+      "name": "d3e4f"
     },
     {
       "event_name": "dialogic_text_event",
@@ -20,7 +20,7 @@
     },
     {
       "event_name": "dialogic_label_event",
-      "name": "nurse_enters"
+      "name": "5f6a7"
     },
     {
       "event_name": "dialogic_text_event",
@@ -29,7 +29,7 @@
     },
     {
       "event_name": "dialogic_label_event",
-      "name": "response_choice"
+      "name": "b8c9d"
     },
     {
       "event_name": "dialogic_choice_event",
@@ -37,7 +37,7 @@
     },
     {
       "event_name": "dialogic_jump_event",
-      "target": "silent_response"
+      "target": "e0f1a"
     },
     {
       "event_name": "dialogic_end_branch_event"
@@ -48,7 +48,7 @@
     },
     {
       "event_name": "dialogic_jump_event",
-      "target": "speak_response"
+      "target": "2b3c4"
     },
     {
       "event_name": "dialogic_end_branch_event"

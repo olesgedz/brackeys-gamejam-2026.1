@@ -50,7 +50,7 @@ class DialogueYAMLLoader:
         dialogue = Dialogue(
             id=data.get("id", ""),
             title=data.get("title", ""),
-            start=data.get("start", ""),
+            start=str(data.get("start", "")) if data.get("start") else "",
             tags=data.get("tags", []),
             file_path=file_path,
         )
@@ -69,10 +69,11 @@ class DialogueYAMLLoader:
                 character = Character(id=char_id, name=str(char_data))
             dialogue.characters[char_id] = character
         
-        # Load nodes
+        # Load nodes (convert IDs to strings in case YAML parsed them as ints)
         for node_id, node_data in data.get("nodes", {}).items():
-            node = DialogueYAMLLoader._parse_node(node_id, node_data)
-            dialogue.nodes[node_id] = node
+            node_id_str = str(node_id)
+            node = DialogueYAMLLoader._parse_node(node_id_str, node_data)
+            dialogue.nodes[node_id_str] = node
         
         dialogue.is_modified = False
         return dialogue
@@ -97,7 +98,7 @@ class DialogueYAMLLoader:
             for choice_data in data["choice"]:
                 choice = ChoiceOption(
                     text=choice_data.get("text", ""),
-                    next=choice_data.get("next", ""),
+                    next=str(choice_data.get("next", "")) if choice_data.get("next") else "",
                     condition=choice_data.get("if"),
                 )
                 node.choices.append(choice)
@@ -109,12 +110,12 @@ class DialogueYAMLLoader:
         elif "if" in data:
             node.type = NodeType.IF
             node.condition = str(data["if"])
-            node.then_node = data.get("then", "")
-            node.else_node = data.get("else", "")
+            node.then_node = str(data.get("then", "")) if data.get("then") else ""
+            node.else_node = str(data.get("else", "")) if data.get("else") else ""
         
         elif "jump" in data:
             node.type = NodeType.JUMP
-            node.jump_target = data["jump"]
+            node.jump_target = str(data["jump"]) if data.get("jump") else ""
         
         elif "signal" in data:
             node.type = NodeType.SIGNAL
@@ -133,7 +134,7 @@ class DialogueYAMLLoader:
         
         # Common fields
         if "next" in data:
-            node.next = data["next"]
+            node.next = str(data["next"]) if data["next"] else ""
         
         # UI position (if stored)
         if "ui" in data:

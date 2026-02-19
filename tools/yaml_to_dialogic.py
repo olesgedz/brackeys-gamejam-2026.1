@@ -1,18 +1,16 @@
 #!/usr/bin/env python3
 """
-YAML to Dialogic Converter
+YAML to Dialogic 2 Converter
 
 Converts YAML dialogue files to Dialogic 2 timeline format (.dtl).
 
 Usage:
     python yaml_to_dialogic.py                      # Convert all
-    python yaml_to_dialogic.py dialogue_id          # Convert specific
     python yaml_to_dialogic.py --validate           # Validate only
     python yaml_to_dialogic.py --dry-run            # Show what would be generated
 """
 
 import argparse
-import json
 import os
 import sys
 from pathlib import Path
@@ -26,13 +24,13 @@ except ImportError:
 
 # Paths relative to project root
 PROJECT_ROOT = Path(__file__).parent.parent
-SRC_DIR = PROJECT_ROOT / "dialogues_src"
+SRC_DIR = PROJECT_ROOT / "dialogues"
 OUT_DIR = PROJECT_ROOT / "dialogues_generated"
 CHARACTERS_DIR = OUT_DIR / "characters"
 
 
 class DialogueConverter:
-    """Converts a single YAML dialogue to Dialogic format."""
+    """Converts a single YAML dialogue to Dialogic 2 format."""
     
     def __init__(self, yaml_data: dict, source_file: str):
         self.data = yaml_data
@@ -83,66 +81,33 @@ class DialogueConverter:
                 choice_next = choice.get("next")
                 if choice_next and choice_next not in self.nodes:
                     self.errors.append(f"Node '{node_id}' choice {i}: references unknown node '{choice_next}'")
-        
-        # Check if/then/else references
-        if "if" in node:
-            then_node = node.get("then")
-            else_node = node.get("else")
-            if then_node and then_node not in self.nodes:
-                self.errors.append(f"Node '{node_id}': 'then' references unknown node '{then_node}'")
-            if else_node and else_node not in self.nodes:
-                self.errors.append(f"Node '{node_id}': 'else' references unknown node '{else_node}'")
-        
-        # Check jump reference
-        if "jump" in node:
-            if node["jump"] not in self.nodes:
-                self.errors.append(f"Node '{node_id}': 'jump' references unknown node '{node['jump']}'")
     
     def convert(self) -> str:
-        """Convert to Dialogic timeline format (.dtl)."""
-        events = []
+        """Convert to Dialogic 2 timeline text format (.dtl)."""
+        lines = []
         
         # Process nodes in order starting from start_node
         visited = set()
-        self._process_node_chain(self.start_node, events, visited)
+        self._process_node_chain(self.start_node, lines, visited, indent=0)
         
-        # Build Dialogic timeline JSON
-        timeline = {
-            "events": events,
-            "_metadata": {
-                "source": self.source_file,
-                "id": self.dialogue_id,
-                "title": self.title,
-            }
-        }
-        
-        return json.dumps(timeline, indent=2, ensure_ascii=False)
+        return '\n'.join(lines)
     
-    def _process_node_chain(self, node_id: str, events: list, visited: set) -> None:
+    def _process_node_chain(self, node_id: str, lines: list, visited: set, indent: int = 0) -> None:
         """Process a node and follow its chain."""
         if node_id in visited or node_id not in self.nodes:
             return
         visited.add(node_id)
         
         node = self.nodes[node_id]
-        
-        # Add label for this node (for jumps)
-        events.append({
-            "event_name": "dialogic_label_event",
-            "name": node_id,
-        })
+        prefix = '\t' * indent
         
         # Process node content
-        self._process_node_content(node, events)
-        
-        # Follow 'next' if present and not an end
-        if not node.get("end") and "next" in node:
-            self._process_node_chain(node["next"], events, visited)
+        self._process_node_content(node, lines, prefix, visited, indent)
     
-    def _process_node_content(self, node: dict, events: list) -> None:
+    def _process_node_content(self, node: dict, lines: list, prefix: str, visited: set, indent: int) -> None:
         """Process the content of a single node."""
         
-        # Say event
+        # Say event: "character: Text"
         if "say" in node:
             say_data = node["say"]
             if isinstance(say_data, dict):
@@ -152,127 +117,104 @@ class DialogueConverter:
                 speaker = ""
                 text = str(say_data)
             
-            # Resolve character name
-            char_name = speaker
-            if speaker in self.characters:
-                char_name = self.characters[speaker].get("name", speaker)
-            
-            events.append({
-                "event_name": "dialogic_text_event",
-                "character": speaker,  # Character ID for Dialogic
-                "text": text,
-            })
+            if speaker:
+                lines.append(f"{prefix}{speaker}: {text}")
+            else:
+                lines.append(f"{prefix}{text}")
         
         # Choice event
         if "choice" in node:
             for choice in node["choice"]:
                 choice_text = choice.get("text", "")
                 choice_next = choice.get("next", "")
-                choice_condition = choice.get("if")
                 
-                choice_event = {
-                    "event_name": "dialogic_choice_event",
-                    "text": choice_text,
-                }
+                lines.append(f"{prefix}- {choice_text}")
                 
-                if choice_condition:
-                    choice_event["condition"] = str(choice_condition)
-                
-                events.append(choice_event)
-                
-                # Add jump to the choice target
-                if choice_next:
-                    events.append({
-                        "event_name": "dialogic_jump_event",
-                        "target": choice_next,
-                    })
-                    events.append({
-                        "event_name": "dialogic_end_branch_event",
-                    })
+                # Process choice branch
+                if choice_next and choice_next not in visited:
+                    self._process_node_chain(choice_next, lines, visited, indent + 1)
+            
+            return  # Don't follow 'next' after choices
         
         # Set variables
         if "set" in node:
             for var_path, value in node["set"].items():
-                events.append({
-                    "event_name": "dialogic_variable_event",
-                    "variable": var_path,
-                    "value": value,
-                    "operation": "set",
-                })
+                if isinstance(value, bool):
+                    val_str = "true" if value else "false"
+                else:
+                    val_str = str(value)
+                lines.append(f"{prefix}[set {var_path} = {val_str}]")
         
-        # Conditional (if/then/else)
-        if "if" in node:
-            condition = node["if"]
-            then_target = node.get("then", "")
-            else_target = node.get("else", "")
-            
-            events.append({
-                "event_name": "dialogic_condition_event",
-                "condition": str(condition),
-            })
-            
-            if then_target:
-                events.append({
-                    "event_name": "dialogic_jump_event",
-                    "target": then_target,
-                })
-            
-            if else_target:
-                events.append({
-                    "event_name": "dialogic_else_event",
-                })
-                events.append({
-                    "event_name": "dialogic_jump_event",
-                    "target": else_target,
-                })
-            
-            events.append({
-                "event_name": "dialogic_end_branch_event",
-            })
+        # End
+        if node.get("end"):
+            end_value = node.get("end")
+            if end_value is True:
+                lines.append(f"{prefix}[end]")
+            else:
+                lines.append(f"{prefix}[end {end_value}]")
+            return
         
         # Jump
         if "jump" in node:
-            events.append({
-                "event_name": "dialogic_jump_event",
-                "target": node["jump"],
-            })
+            lines.append(f"{prefix}[jump {node['jump']}]")
+            return
         
-        # Signal/Event
+        # Signal
         if "signal" in node:
             sig = node["signal"]
-            events.append({
-                "event_name": "dialogic_signal_event",
-                "signal_name": sig.get("name", sig) if isinstance(sig, dict) else str(sig),
-                "arguments": sig.get("args", {}) if isinstance(sig, dict) else {},
-            })
+            if isinstance(sig, dict):
+                sig_name = sig.get("name", "")
+            else:
+                sig_name = str(sig)
+            lines.append(f"{prefix}[signal {sig_name}]")
         
-        # End
-        if "end" in node:
-            end_value = node["end"]
-            events.append({
-                "event_name": "dialogic_end_event",
-                "outcome": str(end_value) if end_value != True else "",
-            })
+        # Follow 'next' if present
+        next_node = node.get("next")
+        if next_node:
+            self._process_node_chain(next_node, lines, visited, indent)
     
     def generate_characters(self) -> dict[str, str]:
-        """Generate Dialogic character resources. Returns {id: json_content}."""
+        """Generate Dialogic 2 character resources (.dch). Returns {id: content}."""
         result = {}
         for char_id, char_data in self.characters.items():
-            char_resource = {
-                "resource_type": "DialogicCharacter",
-                "display_name": char_data.get("name", char_id),
-                "nicknames": [],
-                "color": "Color(1, 1, 1, 1)",
-                "portraits": {},
-            }
-            
+            # Dialogic uses Godot's var_to_str format which requires @path
+            # Format must match what dict_to_inst() expects
+            portraits_dict = {}
             if "portrait" in char_data:
-                char_resource["portraits"]["default"] = {
+                portraits_dict["default"] = {
                     "scene": "",
                     "image": char_data["portrait"],
                 }
             
-            result[char_id] = json.dumps(char_resource, indent=2)
+            # Build the dict string in Godot's var_to_str format
+            lines = [
+                '{',
+                '"@path": "res://addons/dialogic/Resources/character.gd",',
+                '"@subpath": NodePath(""),',
+                f'"display_name": "{char_data.get("name", char_id)}",',
+                '"nicknames": [],',
+                '"color": Color(1, 1, 1, 1),',
+                '"description": "",',
+                '"scale": 1.0,',
+                '"offset": Vector2(0, 0),',
+                '"mirror": false,',
+                '"default_portrait": "",',
+            ]
+            
+            # Add portraits
+            if portraits_dict:
+                portrait_str = '{'
+                for pname, pdata in portraits_dict.items():
+                    portrait_str += f'"{pname}": {{"scene": "", "image": "{pdata["image"]}"}}, '
+                portrait_str = portrait_str.rstrip(', ') + '}'
+                lines.append(f'"portraits": {portrait_str},')
+            else:
+                lines.append('"portraits": {},')
+            
+            lines.append('"custom_info": {}')
+            lines.append('}')
+            
+            result[char_id] = '\n'.join(lines)
         
         return result
 
@@ -335,7 +277,11 @@ def convert_all(validate_only: bool = False, dry_run: bool = False) -> int:
         
         if dry_run:
             print(f"  Would generate: {out_file}")
-            print(f"  Events: {dtl_content[:200]}...")
+            print("  --- Content preview ---")
+            for line in dtl_content.split('\n')[:10]:
+                print(f"    {line}")
+            if dtl_content.count('\n') > 10:
+                print(f"    ... ({dtl_content.count(chr(10)) - 10} more lines)")
         else:
             with open(out_file, "w", encoding="utf-8") as f:
                 f.write(dtl_content)
@@ -343,13 +289,13 @@ def convert_all(validate_only: bool = False, dry_run: bool = False) -> int:
         
         # Generate characters
         characters = converter.generate_characters()
-        for char_id, char_json in characters.items():
+        for char_id, char_content in characters.items():
             char_file = CHARACTERS_DIR / f"{char_id}.dch"
             if dry_run:
                 print(f"  Would generate character: {char_file.name}")
             else:
                 with open(char_file, "w", encoding="utf-8") as f:
-                    f.write(char_json)
+                    f.write(char_content)
                 print(f"  ✓ Character: {char_file.name}")
     
     print(f"\n{'='*40}")
@@ -362,14 +308,12 @@ def convert_all(validate_only: bool = False, dry_run: bool = False) -> int:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Convert YAML dialogues to Dialogic format")
-    parser.add_argument("dialogue_id", nargs="?", help="Specific dialogue ID to convert")
+    parser = argparse.ArgumentParser(description="Convert YAML dialogues to Dialogic 2 format")
     parser.add_argument("--validate", action="store_true", help="Validate only, don't generate")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be generated")
     
     args = parser.parse_args()
     
-    # TODO: Support single dialogue conversion
     exit_code = convert_all(validate_only=args.validate, dry_run=args.dry_run)
     sys.exit(exit_code)
 

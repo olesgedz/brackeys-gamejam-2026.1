@@ -74,7 +74,7 @@ class DialogueNode:
     
     def __post_init__(self):
         if not self.id:
-            self.id = f"node_{uuid.uuid4().hex[:8]}"
+            self.id = uuid.uuid4().hex[:5]  # Short 5-char hex ID
 
 
 @dataclass

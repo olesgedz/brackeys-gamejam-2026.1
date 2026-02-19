@@ -4,54 +4,54 @@ title: "Awakening in the Sanatorium"
 
 characters:
   child:
-    name: "???"
+	name: "???"
   nurse:
-    name: "Nurse"
-    portrait: "res://art/portraits/nurse.png"
+	name: "Nurse"
+	portrait: "res://art/portraits/nurse.png"
   doctor:
-    name: "Doctor"
-    portrait: "res://art/portraits/doctor.png"
+	name: "Doctor"
+	portrait: "res://art/portraits/doctor.png"
 
-start: wake_up
+start: a1b2c
 
 nodes:
-  wake_up:
-    say: { speaker: child, text: "..." }
-    next: look_around
+  a1b2c:
+	say: { speaker: child, text: "..." }
+	next: d3e4f
 
-  look_around:
-    say: { speaker: child, text: "(Where am I? Everything is so... foggy.)" }
-    next: nurse_enters
+  d3e4f:
+	say: { speaker: child, text: "(Where am I? Everything is so... foggy.)" }
+	next: 5f6a7
 
-  nurse_enters:
-    say: { speaker: nurse, text: "Oh! You're awake. How do you feel?" }
-    next: response_choice
+  5f6a7:
+	say: { speaker: nurse, text: "Oh! You're awake. How do you feel?" }
+	next: b8c9d
 
-  response_choice:
-    choice:
-      - text: "(Stay silent)"
-        next: silent_response
-      - text: "(Try to speak)"
-        next: speak_response
+  b8c9d:
+	choice:
+	  - text: "(Stay silent)"
+		next: e0f1a
+	  - text: "(Try to speak)"
+		next: 2b3c4
 
-  silent_response:
-    say: { speaker: nurse, text: "It's alright, dear. You don't have to speak. Rest now." }
-    set:
-      flags.stayed_silent: true
-    next: nurse_leaves
+  e0f1a:
+	say: { speaker: nurse, text: "It's alright, dear. You don't have to speak. Rest now." }
+	set:
+	  flags.stayed_silent: true
+	next: 5d6e7
 
-  speak_response:
-    say: { speaker: child, text: "I... I don't remember..." }
-    next: nurse_concerned
+  2b3c4:
+	say: { speaker: child, text: "I... I don't remember..." }
+	next: f8a9b
 
-  nurse_concerned:
-    say: { speaker: nurse, text: "Shh, don't strain yourself. The doctor will see you soon." }
-    set:
-      flags.tried_to_speak: true
-    next: nurse_leaves
+  f8a9b:
+	say: { speaker: nurse, text: "Shh, don't strain yourself. The doctor will see you soon." }
+	set:
+	  flags.tried_to_speak: true
+	next: 5d6e7
 
-  nurse_leaves:
-    say: { speaker: nurse, text: "I'll bring you some water. Don't try to get up." }
-    set:
-      flags.intro_done: true
-    end: true
+  5d6e7:
+	say: { speaker: nurse, text: "I'll bring you some water. Don't try to get up." }
+	set:
+	  flags.intro_done: true
+	end: true
