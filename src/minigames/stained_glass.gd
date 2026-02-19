@@ -67,8 +67,9 @@ func _create_fragments() -> void:
 	var piece_size = Vector2(cell_width * 0.8, cell_height * 0.8)
 	
 	for i in range(total_pieces):
-		var row = i / cols
-		var col = i % cols
+		@warning_ignore("integer_division")
+		var row := i / cols
+		var col := i % cols
 		
 		# Target position within frame
 		var target_pos = frame_position + Vector2(
@@ -196,9 +197,9 @@ func get_total_pieces() -> int:
 	return total_pieces
 
 
-func show_targets(visible: bool) -> void:
+func show_targets(show: bool) -> void:
 	for child in targets_container.get_children():
-		child.visible = visible
+		child.visible = show
 
 
 func auto_solve() -> void:
