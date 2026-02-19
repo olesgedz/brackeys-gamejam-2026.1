@@ -1,0 +1,63 @@
+id: intro
+characters:
+  player:
+    name: ???
+  nurse:
+    name: Nurse
+start: b70e4
+nodes:
+  b70e4:
+    say:
+      speaker: player
+      text: Emm.. Where am I?
+    next: '59514'
+    ui:
+      x: -254.6
+      y: -71.7
+  '59514':
+    say:
+      speaker: nurse
+      text: It's alright, dear. You are in the Belfort Manor. You are being treated here.
+    next: fc08f
+    ui:
+      x: -256.4
+      y: 5.7
+  fc08f:
+    say:
+      speaker: player
+      text: What's wrong with me?
+    next: 9cafe
+    ui:
+      x: -256.4
+      y: 80.7
+  9cafe:
+    say:
+      speaker: nurse
+      text: Poor thing, you remember so little. Τell me, what do you remember?
+    next: 5c8f6
+    ui:
+      x: -256.4
+      y: 155.7
+  5c8f6:
+    choice:
+    - text: Is there something with my brain?
+      next: 41e52
+    - text: My lungs are not okay, is that right?
+      next: caabc
+    ui:
+      x: -256.4
+      y: 230.7
+  41e52:
+    say:
+      speaker: nurse
+      text: Yes dear. Your lungs
+    ui:
+      x: -460.5
+      y: 334.8
+  caabc:
+    say:
+      speaker: nurse
+      text: Yes.
+    ui:
+      x: -41.8
+      y: 334.5

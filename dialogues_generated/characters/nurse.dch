@@ -1,0 +1,14 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+"display_name": "Nurse",
+"nicknames": [],
+"color": Color(1, 1, 1, 1),
+"description": "",
+"scale": 1.0,
+"offset": Vector2(0, 0),
+"mirror": false,
+"default_portrait": "",
+"portraits": {},
+"custom_info": {}
+}

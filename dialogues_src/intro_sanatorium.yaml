@@ -1,0 +1,57 @@
+# First dialogue in the sanatorium - child wakes up
+id: intro_sanatorium
+title: "Awakening in the Sanatorium"
+
+characters:
+  child:
+	name: "???"
+  nurse:
+	name: "Nurse"
+	portrait: "res://art/portraits/nurse.png"
+  doctor:
+	name: "Doctor"
+	portrait: "res://art/portraits/doctor.png"
+
+start: a1b2c
+
+nodes:
+  a1b2c:
+	say: { speaker: child, text: "..." }
+	next: d3e4f
+
+  d3e4f:
+	say: { speaker: child, text: "(Where am I? Everything is so... foggy.)" }
+	next: 5f6a7
+
+  5f6a7:
+	say: { speaker: nurse, text: "Oh! You're awake. How do you feel?" }
+	next: b8c9d
+
+  b8c9d:
+	choice:
+	  - text: "(Stay silent)"
+		next: e0f1a
+	  - text: "(Try to speak)"
+		next: 2b3c4
+
+  e0f1a:
+	say: { speaker: nurse, text: "It's alright, dear. You don't have to speak. Rest now." }
+	set:
+	  flags.stayed_silent: true
+	next: 5d6e7
+
+  2b3c4:
+	say: { speaker: child, text: "I... I don't remember..." }
+	next: f8a9b
+
+  f8a9b:
+	say: { speaker: nurse, text: "Shh, don't strain yourself. The doctor will see you soon." }
+	set:
+	  flags.tried_to_speak: true
+	next: 5d6e7
+
+  5d6e7:
+	say: { speaker: nurse, text: "I'll bring you some water. Don't try to get up." }
+	set:
+	  flags.intro_done: true
+	end: true

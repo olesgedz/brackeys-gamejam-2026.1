@@ -1,0 +1,12 @@
+{
+  "resource_type": "DialogicCharacter",
+  "display_name": "Doctor",
+  "nicknames": [],
+  "color": "Color(1, 1, 1, 1)",
+  "portraits": {
+    "default": {
+      "scene": "",
+      "image": "res://art/portraits/doctor.png"
+    }
+  }
+}

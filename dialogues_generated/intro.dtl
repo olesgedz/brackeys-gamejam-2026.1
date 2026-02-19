@@ -1,0 +1,8 @@
+player: Emm.. Where am I?
+nurse: It's alright, dear. You are in the Belfort Manor. You are being treated here.
+player: What's wrong with me?
+nurse: Poor thing, you remember so little. Τell me, what do you remember?
+- Is there something with my brain?
+	nurse: Yes dear. Your lungs
+- My lungs are not okay, is that right?
+	nurse: Yes.
