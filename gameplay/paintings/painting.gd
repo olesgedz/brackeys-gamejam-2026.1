@@ -168,13 +168,15 @@ func can_interact() -> bool:
 
 
 func show_tooltip() -> void:
-	# TODO: Show "[E] Interact" prompt in HUD
-	pass
+	var hud = get_tree().get_first_node_in_group("hud") as HUD
+	if hud:
+		hud.show_interaction_prompt("[E] Interact")
 
 
 func hide_tooltip() -> void:
-	# TODO: Hide prompt
-	pass
+	var hud = get_tree().get_first_node_in_group("hud") as HUD
+	if hud:
+		hud.hide_interaction_prompt()
 
 
 ## Called when player presses E
