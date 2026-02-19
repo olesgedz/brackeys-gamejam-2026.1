@@ -11,12 +11,13 @@ config_version=5
 [application]
 
 config/name="Mend"
-run/main_scene="res://scenes/main.tscn"
+run/main_scene="res://src/ui/main_menu.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [autoload]
 
+GameSettings="*res://src/autoload/game_settings.gd"
 DialogService="*res://src/autoload/dialog_service.gd"
 Dialogic="*uid://ds2q0uclmolvu"
 
@@ -108,3 +109,10 @@ dialogic_default_action={
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+
+[shader_globals]
+
+precision_multiplier={
+"type": "float",
+"value": 0.7
+}

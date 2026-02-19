@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c1hud00000001" path="res://scenes/hud.tscn" id="2_hud"]
 [ext_resource type="PackedScene" uid="uid://c4pict0000001" path="res://scenes/interactive_picture.tscn" id="3_picture"]
 [ext_resource type="Script" uid="uid://u565i5f7hdir" path="res://src/globals/game_manager.gd" id="4_gm"]
+[ext_resource type="PackedScene" path="res://src/ui/pause_menu.tscn" id="5_pause"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
 albedo_color = Color(0.4, 0.35, 0.3, 1)
@@ -73,3 +74,5 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 light_energy = 0.5
 omni_range = 8.0
+
+[node name="PauseMenu" parent="." instance=ExtResource("5_pause")]

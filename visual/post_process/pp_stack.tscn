@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://cs8d3xn2towo"]
+
+[ext_resource type="Material" uid="uid://b6irksunrvdek" path="res://visual/post_process/blur-post-process_mat.tres" id="1_3emcg"]
+[ext_resource type="Material" uid="uid://bni0eo5gi5ho4" path="res://visual/post_process/lcd-overlay_mat.tres" id="2_0v7s0"]
+[ext_resource type="Shader" uid="uid://dw4vbsynovv6n" path="res://visual/shaders/pp_band-dither.gdshader" id="3_rkbcs"]
+[ext_resource type="Texture2D" uid="uid://b0ub3tqjyw46f" path="res://visual/shaders/psxdither.png" id="4_05ih0"]
+[ext_resource type="PackedScene" uid="uid://b5mkiwbkjho27" path="res://scenes/main.tscn" id="5_l0ykp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m5nvn"]
+shader = ExtResource("3_rkbcs")
+shader_parameter/dither_tex = ExtResource("4_05ih0")
+shader_parameter/col_depth = 15.0
+shader_parameter/dither_banding = true
+
+[node name="Node" type="Node" unique_id=14405476]
+
+[node name="PSXLayer" type="CanvasLayer" parent="." unique_id=1760550594]
+layer = 0
+
+[node name="BlurPostProcess" type="SubViewportContainer" parent="PSXLayer" unique_id=1081855662]
+material = ExtResource("1_3emcg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Viewport" type="SubViewport" parent="PSXLayer/BlurPostProcess" unique_id=1998725954]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+size = Vector2i(960, 720)
+render_target_update_mode = 4
+
+[node name="LCDOverlay" type="SubViewportContainer" parent="PSXLayer/BlurPostProcess/Viewport" unique_id=949619210]
+material = ExtResource("2_0v7s0")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+stretch = true
+
+[node name="Viewport" type="SubViewport" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay" unique_id=342744746]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+size = Vector2i(960, 720)
+render_target_update_mode = 4
+
+[node name="DitherBanding" type="SubViewportContainer" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport" unique_id=1568848672]
+material = SubResource("ShaderMaterial_m5nvn")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+stretch = true
+stretch_shrink = 3
+
+[node name="Viewport" type="SubViewport" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding" unique_id=1976357682]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+size = Vector2i(320, 240)
+render_target_update_mode = 4
+
+[node name="Main" parent="PSXLayer/BlurPostProcess/Viewport/LCDOverlay/Viewport/DitherBanding/Viewport" unique_id=1787228791 instance=ExtResource("5_l0ykp")]
