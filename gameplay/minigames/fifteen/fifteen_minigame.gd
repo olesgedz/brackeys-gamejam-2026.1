@@ -6,12 +6,13 @@ class_name FifteenMiniGame
 
 var puzzle_instance: FifteenPuzzle
 
-@onready var puzzle_container: SubViewportContainer = $SubViewportContainer
-@onready var puzzle_viewport: SubViewport = $SubViewportContainer/SubViewport
-@onready var cancel_button: Button = $CancelButton
-
 
 func _on_setup() -> void:
+	# Wait for nodes to be ready
+	if not is_node_ready():
+		await ready
+	
+	var puzzle_viewport: SubViewport = $SubViewportContainer/SubViewport
 	# Configure grid size based on difficulty
 	var grid_configs = {
 		1: Vector2i(2, 2),  # 2x2 = 3 tiles
