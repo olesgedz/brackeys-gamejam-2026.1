@@ -9,6 +9,7 @@ class_name FlyingCamera
 @onready var raycast: RayCast3D = $Camera3D/RayCast3D
 
 var current_interactable: Node = null
+var can_move: bool = true
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -29,25 +30,33 @@ func _input(event: InputEvent) -> void:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(_delta: float) -> void:
-	var input_dir := Vector3.ZERO
-	if Input.is_action_pressed("move_forward"):
-		input_dir -= transform.basis.z
-	if Input.is_action_pressed("move_back"):
-		input_dir += transform.basis.z
-	if Input.is_action_pressed("move_left"):
-		input_dir -= transform.basis.x
-	if Input.is_action_pressed("move_right"):
-		input_dir += transform.basis.x
-	if Input.is_action_pressed("move_up"):
-		input_dir += Vector3.UP
-	if Input.is_action_pressed("move_down"):
-		input_dir -= Vector3.UP
-	
-	input_dir = input_dir.normalized()
-	velocity = input_dir * move_speed
-	move_and_slide()
+	if can_move:
+		var input_dir := Vector3.ZERO
+		if Input.is_action_pressed("move_forward"):
+			input_dir -= transform.basis.z
+		if Input.is_action_pressed("move_back"):
+			input_dir += transform.basis.z
+		if Input.is_action_pressed("move_left"):
+			input_dir -= transform.basis.x
+		if Input.is_action_pressed("move_right"):
+			input_dir += transform.basis.x
+		if Input.is_action_pressed("move_up"):
+			input_dir += Vector3.UP
+		if Input.is_action_pressed("move_down"):
+			input_dir -= Vector3.UP
+		
+		input_dir = input_dir.normalized()
+		velocity = input_dir * move_speed
+		move_and_slide()
 	
 	_check_interactable()
+
+
+func  disable_movement():
+	can_move = false
+
+func  enable_movement():
+	can_move = true
 
 func _check_interactable() -> void:
 	if raycast.is_colliding():
