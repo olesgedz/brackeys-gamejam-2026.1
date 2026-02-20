@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" path="res://gameplay/paintings/painting.tscn" id="3_painting"]
 [ext_resource type="PackedScene" path="res://src/ui/pause_menu.tscn" id="5_pause"]
 [ext_resource type="Script" uid="uid://dcet22hdtwrhv" path="res://src/minigames/painting.gd" id="6_o6xl0"]
-[ext_resource type="PackedScene" uid="uid://rkorsjnytypp" path="res://scenes/test_screen.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://c5fifteen001" path="res://scenes/minigames/fifteen_puzzle.tscn" id="6_tefeu"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
 albedo_color = Color(0.4, 0.35, 0.3, 1)
@@ -73,7 +73,7 @@ use_collision = true
 size = Vector3(0.1, 4, 10)
 material = SubResource("StandardMaterial3D_wall")
 
-[node name="Painting" parent="." instance=ExtResource("3_painting")]
+[node name="Painting" parent="." unique_id=749093281 instance=ExtResource("3_painting")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -4.95)
 painting_id = "fifteen_puzzle"
 minigame_type = 2
@@ -113,7 +113,7 @@ disable_3d = true
 handle_input_locally = false
 physics_object_picking = true
 physics_object_picking_sort = true
-size = Vector2i(1152, 648)
+size = Vector2i(400, 400)
 render_target_update_mode = 4
 
-[node name="TestScreen" parent="Node3D/SubViewport" unique_id=913655254 instance=ExtResource("7_o6xl0")]
+[node name="FifteenPuzzle" parent="Node3D/SubViewport" unique_id=1176949167 instance=ExtResource("6_tefeu")]

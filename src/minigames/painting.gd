@@ -26,14 +26,14 @@ func _ready():
 
 func _unhandled_input(event):
 	# Enter
-	if event.is_action_pressed("interact"):
+	if !active and event.is_action_pressed("interact"):
 		enter_terminal()
 		return
 
 	# Exit
-	#if active and event.is_action_pressed("exit_terminal"):
-		#exit_terminal()
-		#return
+	if active and event.is_action_pressed("interact"):
+		exit_terminal()
+		return
 
 	# Forward input when active
 	if active:
@@ -53,8 +53,7 @@ func enter_terminal():
 	original_transform = player_camera.global_transform
 	original_fov = player_camera.fov
 
-	#if player_body.has_method("disable_movement"):
-		#player_body.disable_movement()
+	player.disable_movement()
 
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN_OUT)
@@ -78,6 +77,7 @@ func enter_terminal():
 
 func _on_enter_finished():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
 
 func exit_terminal():
 	if not active:
@@ -107,9 +107,7 @@ func exit_terminal():
 
 func _on_exit_finished():
 	active = false
-
-	if player_body and player_body.has_method("enable_movement"):
-		player_body.enable_movement()
+	player.enable_movement()
 
 # -------------------------
 # INPUT FORWARDING
@@ -133,16 +131,12 @@ func forward_mouse(event):
 	query.collide_with_bodies = true
 
 	var result = get_world_3d().direct_space_state.intersect_ray(query)
-	print("Result: ", result)  # Print the whole result to see what's available
 
 	if result and result.get("collider") == screen_mesh.get_node("StaticBody3D"):
-		#if result.has("uv"):
-			#var uv = result["uv"]  # Access uv from dictionary
-			#var viewport_size = subviewport.siz
-			#var local_pos = Vector2(uv.x * viewport_size.x, (1.0 - uv.y) * viewport_size.y)
-			push_mouse_event(event, mouse_pos)
-		#else:
-			#print("No UV data in ray intersection result")
+		var sub_viewport_size = subviewport.size
+		var main_view_size = get_viewport().size
+		var local_pos = Vector2(mouse_pos.x / main_view_size.x * sub_viewport_size.x, mouse_pos.y / main_view_size.y * sub_viewport_size.y)
+		push_mouse_event(event, local_pos)
 
 func push_mouse_event(event, pos: Vector2):
 	var new_event
