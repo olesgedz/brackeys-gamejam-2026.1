@@ -14,3 +14,4 @@ venv/
 # Import files (optional, Godot regenerates)
 *.import
 /resources/map/manor/
+/addons/dialogic/
