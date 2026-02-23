@@ -13,3 +13,4 @@ venv/
 
 # Import files (optional, Godot regenerates)
 *.import
+/resources/map/manor/
