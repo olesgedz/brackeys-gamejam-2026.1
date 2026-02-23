@@ -4,12 +4,16 @@ class_name FlyingCamera
 @export var move_speed: float = 5.0
 @export var mouse_sensitivity: float = 0.002
 @export var interaction_distance: float = 3.0
+@export var jump_velocity: float = 4.0
+
 
 @onready var camera: Camera3D = $Camera3D
 @onready var raycast: RayCast3D = $Camera3D/RayCast3D
 
 var current_interactable: Node = null
 var can_move: bool = true
+
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -30,7 +34,20 @@ func _input(event: InputEvent) -> void:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(_delta: float) -> void:
-	if can_move:
+	if not is_on_floor():
+		print("fall")
+		velocity.y -= gravity * _delta
+	## Get the input direction and handle the movement/deceleration.
+	## As good practice, you should replace UI actions with custom gameplay actions.
+	#var input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	#var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	#if direction:
+		#motion_velocity.x = direction.x * SPEED
+		#motion_velocity.z = direction.z * SPEED
+	#else:
+		#motion_velocity.x = move_toward(motion_velocity.x, 0, SPEED)
+		#motion_velocity.z = move_toward(motion_velocity.z, 0, SPEED)
+	if is_on_floor() and can_move:
 		var input_dir := Vector3.ZERO
 		if Input.is_action_pressed("move_forward"):
 			input_dir -= transform.basis.z
@@ -41,14 +58,13 @@ func _physics_process(_delta: float) -> void:
 		if Input.is_action_pressed("move_right"):
 			input_dir += transform.basis.x
 		if Input.is_action_pressed("move_up"):
-			input_dir += Vector3.UP
+			velocity.y = jump_velocity
 		if Input.is_action_pressed("move_down"):
 			input_dir -= Vector3.UP
 		
 		input_dir = input_dir.normalized()
 		velocity = input_dir * move_speed
-		move_and_slide()
-	
+	move_and_slide()
 	_check_interactable()
 
 

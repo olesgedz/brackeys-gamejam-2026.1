@@ -37,7 +37,7 @@ func _update_volume_labels() -> void:
 
 
 func _on_start_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/main.tscn")
+	get_tree().change_scene_to_file("res://visual/post_process/pp_stack.tscn")
 
 
 func _on_settings_pressed() -> void:

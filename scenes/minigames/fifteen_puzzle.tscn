@@ -9,24 +9,27 @@
 script = ExtResource("1_puzzle")
 rows = 3
 cols = 2
+puzzle_size = Vector2(130, 120)
 image_texture = ExtResource("2_uuhj7")
 shuffle_moves = 10
 tear_texture = ExtResource("3_qvjyn")
 developer_mode = true
 slide_sounds = Array[AudioStream]([ExtResource("4_fug3n")])
 
-[node name="Background" type="ColorRect" parent="." unique_id=1897207536]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1318331030]
+
+[node name="Background" type="ColorRect" parent="CanvasLayer" unique_id=1897207536]
 offset_right = 400.0
 offset_bottom = 400.0
 color = Color(0.1, 0.1, 0.1, 1)
 
-[node name="TilesContainer" type="Node2D" parent="." unique_id=1947506482]
+[node name="TilesContainer" type="Node2D" parent="CanvasLayer" unique_id=1947506482]
 
-[node name="TearsContainer" type="Node2D" parent="." unique_id=898546429]
+[node name="TearsContainer" type="Node2D" parent="CanvasLayer" unique_id=898546429]
 
-[node name="AudioPlayer" type="AudioStreamPlayer" parent="." unique_id=1332261780]
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="CanvasLayer" unique_id=1332261780]
 
-[node name="WinLabel" type="Label" parent="." unique_id=1739869396]
+[node name="WinLabel" type="Label" parent="CanvasLayer" unique_id=1739869396]
 offset_left = 100.0
 offset_top = 137.0
 offset_right = 300.0

@@ -3,13 +3,17 @@
 [ext_resource type="Script" uid="uid://cba7xp45aekbh" path="res://src/player/flying_camera.gd" id="1_player"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_player"]
-radius = 0.3
-height = 1.0
+radius = 0.22363281
+height = 0.8315686
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_3vyb7"]
 
 [node name="Player" type="CharacterBody3D" unique_id=92192741 groups=["player"]]
+disable_mode = 2
 script = ExtResource("1_player")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1737281943]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.009868801, 0)
 shape = SubResource("CapsuleShape3D_player")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1714987619]
@@ -19,3 +23,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 target_position = Vector3(0, 0, -10)
 collision_mask = 3
 collide_with_areas = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=61746358]
+transform = Transform3D(0.38871044, 0, 0, 0, 0.38871044, 0, 0, 0, 0.38871044, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_3vyb7")

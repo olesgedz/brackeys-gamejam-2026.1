@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cdj3j45pnl0cm"]
+
+[ext_resource type="PackedScene" uid="uid://c56y8fjcqu4ie" path="res://resources/map/SM_Bld_Base_Floor_Combined_01 (58).fbx" id="1_xj3r7"]
+[ext_resource type="PackedScene" uid="uid://dd757my75yd66" path="res://resources/map/Untitled.fbx" id="2_45gj4"]
+
+[node name="Level" type="Node3D" unique_id=1444140042]
+
+[node name="SM_Bld_Base_Floor_Combined_01 (58)" parent="." unique_id=1844594670 instance=ExtResource("1_xj3r7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5207283, 0, 0.03429079)
+
+[node name="Untitled" parent="." unique_id=2113805310 instance=ExtResource("2_45gj4")]

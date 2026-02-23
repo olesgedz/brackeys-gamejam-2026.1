@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://bfhcu54qxbjbl"]
 
-[ext_resource type="Script" path="res://src/ui/main_menu.gd" id="1_main"]
+[ext_resource type="Script" uid="uid://uspudgwbwf1x" path="res://src/ui/main_menu.gd" id="1_main"]
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=288184768]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,7 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_main")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=793774957]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.05, 0.05, 0.08, 1)
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=570866020]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -34,7 +34,7 @@ theme_override_font_sizes/font_size = 48
 text = "MEND"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="."]
+[node name="Subtitle" type="Label" parent="." unique_id=2120847070]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -44,12 +44,12 @@ offset_top = 140.0
 offset_right = 200.0
 offset_bottom = 170.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 16
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_font_sizes/font_size = 16
 text = "A Victorian Horror"
 horizontal_alignment = 1
 
-[node name="MainButtons" type="VBoxContainer" parent="."]
+[node name="MainButtons" type="VBoxContainer" parent="." unique_id=254682679]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -64,22 +64,22 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 15
 
-[node name="StartButton" type="Button" parent="MainButtons"]
+[node name="StartButton" type="Button" parent="MainButtons" unique_id=1404640931]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 text = "Start Game"
 
-[node name="SettingsButton" type="Button" parent="MainButtons"]
+[node name="SettingsButton" type="Button" parent="MainButtons" unique_id=1667739742]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 text = "Settings"
 
-[node name="ExitButton" type="Button" parent="MainButtons"]
+[node name="ExitButton" type="Button" parent="MainButtons" unique_id=1369831461]
 custom_minimum_size = Vector2(200, 40)
 layout_mode = 2
 text = "Exit"
 
-[node name="SettingsPanel" type="PanelContainer" parent="."]
+[node name="SettingsPanel" type="PanelContainer" parent="." unique_id=1981822132]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -94,99 +94,96 @@ offset_bottom = 150.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="SettingsPanel"]
+[node name="MarginContainer" type="MarginContainer" parent="SettingsPanel" unique_id=1293363593]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingsPanel/MarginContainer" unique_id=798249683]
 layout_mode = 2
 theme_override_constants/separation = 15
 
-[node name="SettingsTitle" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+[node name="SettingsTitle" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer" unique_id=659119845]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "Settings"
 horizontal_alignment = 1
 
-[node name="Separator" type="HSeparator" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+[node name="Separator" type="HSeparator" parent="SettingsPanel/MarginContainer/VBoxContainer" unique_id=1355492449]
 layout_mode = 2
 
-[node name="MasterVolume" type="HBoxContainer" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+[node name="MasterVolume" type="HBoxContainer" parent="SettingsPanel/MarginContainer/VBoxContainer" unique_id=47048866]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/MasterVolume"]
+[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/MasterVolume" unique_id=978164464]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 text = "Master"
 
-[node name="HSlider" type="HSlider" parent="SettingsPanel/MarginContainer/VBoxContainer/MasterVolume"]
+[node name="HSlider" type="HSlider" parent="SettingsPanel/MarginContainer/VBoxContainer/MasterVolume" unique_id=391740005]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = 0.0
 max_value = 1.0
 step = 0.05
 value = 1.0
 
-[node name="ValueLabel" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/MasterVolume"]
+[node name="ValueLabel" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/MasterVolume" unique_id=533309903]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "100%"
 horizontal_alignment = 2
 
-[node name="MusicVolume" type="HBoxContainer" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+[node name="MusicVolume" type="HBoxContainer" parent="SettingsPanel/MarginContainer/VBoxContainer" unique_id=1514969068]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/MusicVolume"]
+[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/MusicVolume" unique_id=600938698]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 text = "Music"
 
-[node name="HSlider" type="HSlider" parent="SettingsPanel/MarginContainer/VBoxContainer/MusicVolume"]
+[node name="HSlider" type="HSlider" parent="SettingsPanel/MarginContainer/VBoxContainer/MusicVolume" unique_id=1602441199]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = 0.0
 max_value = 1.0
 step = 0.05
 value = 0.8
 
-[node name="ValueLabel" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/MusicVolume"]
+[node name="ValueLabel" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/MusicVolume" unique_id=896642227]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "80%"
 horizontal_alignment = 2
 
-[node name="SFXVolume" type="HBoxContainer" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+[node name="SFXVolume" type="HBoxContainer" parent="SettingsPanel/MarginContainer/VBoxContainer" unique_id=2106598176]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/SFXVolume"]
+[node name="Label" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/SFXVolume" unique_id=811732591]
 custom_minimum_size = Vector2(80, 0)
 layout_mode = 2
 text = "Sounds"
 
-[node name="HSlider" type="HSlider" parent="SettingsPanel/MarginContainer/VBoxContainer/SFXVolume"]
+[node name="HSlider" type="HSlider" parent="SettingsPanel/MarginContainer/VBoxContainer/SFXVolume" unique_id=2077186949]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 size_flags_horizontal = 3
-min_value = 0.0
 max_value = 1.0
 step = 0.05
 value = 0.8
 
-[node name="ValueLabel" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/SFXVolume"]
+[node name="ValueLabel" type="Label" parent="SettingsPanel/MarginContainer/VBoxContainer/SFXVolume" unique_id=172295749]
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 text = "80%"
 horizontal_alignment = 2
 
-[node name="Separator2" type="HSeparator" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+[node name="Separator2" type="HSeparator" parent="SettingsPanel/MarginContainer/VBoxContainer" unique_id=14732705]
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="SettingsPanel/MarginContainer/VBoxContainer"]
+[node name="BackButton" type="Button" parent="SettingsPanel/MarginContainer/VBoxContainer" unique_id=1802293558]
 layout_mode = 2
 text = "Back"
 

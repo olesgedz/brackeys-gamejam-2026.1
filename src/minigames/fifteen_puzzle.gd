@@ -12,10 +12,10 @@ signal puzzle_completed
 @export var developer_mode: bool = false  ## Enables right-click swap cheats
 @export var slide_sounds: Array[AudioStream] = []  ## Sound bank for tile movement
 
-@onready var tiles_container: Node2D = $TilesContainer
-@onready var tears_container: Node2D = $TearsContainer
-@onready var win_label: Label = $WinLabel
-@onready var audio_player: AudioStreamPlayer = $AudioPlayer
+@onready var tiles_container: Node2D = $CanvasLayer/TilesContainer
+@onready var tears_container: Node2D = $CanvasLayer/TearsContainer
+@onready var win_label: Label = $CanvasLayer/WinLabel
+@onready var audio_player: AudioStreamPlayer = $CanvasLayer/AudioPlayer
 
 var tiles: Array = []  # 2D array of tile nodes
 var empty_pos: Vector2i = Vector2i(0, 0)  # Position of empty slot
